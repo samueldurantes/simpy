@@ -18,6 +18,7 @@
               pythonWithPackages = python3.withPackages (p:
                 with p; [
                   flask
+                  pydantic
                 ]
               );
             in
