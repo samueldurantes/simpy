@@ -17,7 +17,7 @@ class SimulationParams(BaseModel):
     
     @validator('financing_value')
     def validate_financing_value(cls, v):
-        if v < 100000:
+        if v < 100000: 
             raise ValueError('Financing value must be greater than 100000')
         return v
 
@@ -48,8 +48,6 @@ def simulations():
       age=age
     )
   except ValidationError as e:
-    # TODO: Make an error handling that return always the last error message
-    # TODO: This must return a json, like this: {"error": "Bank not supported"}
-    return str(e.errors()), 400
+    return jsonify({"error": e.errors()[-1]['msg']}), 400
 
   return jsonify(simulation_params.model_dump()), 200
