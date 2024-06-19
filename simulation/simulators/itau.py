@@ -1,6 +1,4 @@
 import locale
-import functools
-import operator
 
 def format_value(value):
     value = float(value)
@@ -49,16 +47,20 @@ class Itau:
       74: 0.6204800000, 75: 0.6892600000, 76: 0.8086700000, 77: 0.8984100000,
       78: 1.0616500000, 79: 1.1588600000, 80: 1.2868200000,
     }
+
     return self.financing_value * (d[self.age] / 100)
 
   def simulate(self):
     interest = self.get_interest()
     mip = self.get_mip()
-    dfi = 83.10 # change this
-    tac = 25 # > 1.5kk is zero
+    dfi = 83.10
+    tac = 25
     return "{:.2f}".format(self.amortization + interest + mip + dfi + tac)
 
   def simulate_all_installments(self):
+    if self.age + (self.installments_number / 12) > 80:
+      raise ValueError("The age of the customer plus the number of installments cannot exceed 80 years")
+
     res = []
     for i in range(1, self.installments_number + 1):
       if i == 1:
@@ -76,21 +78,23 @@ class Itau:
           res.append([str(i), simulate_value])
     return res
 
-def print_table(dados):
-  # Convert all elements to strings
-  dados_str = [[str(celula) for celula in linha] for linha in dados]
-  larguras = [max(map(len, coluna)) for coluna in zip(*dados_str)]
-  linha_superior = '+-{}-+'.format('-+-'.join('-'*largura for largura in larguras))
-  print(linha_superior)
-  for linha in dados_str:
-    print('| {} |'.format(' | '.join(str(celula).ljust(largura) for largura, celula in zip(larguras, linha))))
-    print(linha_superior)
+# Debug tools
 
-if __name__ == '__main__':
-  i = Itau(1000000, 240, 20, "Personnalité")
-  a = i.simulate_all_installments()
-  b = list(map(lambda x: x[1], a))
-  c = functools.reduce(operator.add, b)
+# def print_table(dados):
+#   # Convert all elements to strings
+#   dados_str = [[str(celula) for celula in linha] for linha in dados]
+#   larguras = [max(map(len, coluna)) for coluna in zip(*dados_str)]
+#   linha_superior = '+-{}-+'.format('-+-'.join('-'*largura for largura in larguras))
+#   print(linha_superior)
+#   for linha in dados_str:
+#     print('| {} |'.format(' | '.join(str(celula).ljust(largura) for largura, celula in zip(larguras, linha))))
+#     print(linha_superior)
 
-  table = [["N˚ da Parcela", "Valor total da parcela"]] + a
-  print_table(table)
+# if __name__ == '__main__':
+#   i = Itau(1000000, 240, 20, "Personnalité")
+#   a = i.simulate_all_installments()
+#   b = list(map(lambda x: x[1], a))
+#   c = functools.reduce(operator.add, b)
+
+#   table = [["N˚ da Parcela", "Valor total da parcela"]] + a
+#   print_table(table)

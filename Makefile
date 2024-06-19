@@ -1,4 +1,4 @@
 .PHONY: run
 run:
 	@echo "Running the program..."
-	flask --app src/main.py run
+	python -m flask --app api.main run

@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from pydantic import BaseModel, validator, ValidationError
+from simulation.simulation import Simulation
 
 app = Flask(__name__)
 
@@ -8,12 +9,6 @@ class SimulationParams(BaseModel):
     financing_value: float
     installments_number: int
     age: int
-
-    @validator('bank')
-    def validate_bank(cls, v):
-        if v.lower() not in ['itau']:
-            raise ValueError('Bank not supported')
-        return v
     
     @validator('financing_value')
     def validate_financing_value(cls, v):
@@ -40,6 +35,9 @@ def simulations():
   installments_number = request.args.get('installments_number')
   age = request.args.get('age')
 
+  if not bank or not financing_value or not installments_number or not age:
+    return jsonify({"error": "It's necessary specify all these parameters: bank, financing_value, installments_number, age"}), 400
+
   try:
     simulation_params = SimulationParams(
       bank=bank,
@@ -49,5 +47,14 @@ def simulations():
     )
   except ValidationError as e:
     return jsonify({"error": e.errors()[-1]['msg']}), 400
+  
+  simulation = Simulation(
+    bank=simulation_params.bank,
+    financing_value=simulation_params.financing_value,
+    installments_number=simulation_params.installments_number,
+    age=simulation_params.age
+  )
 
-  return jsonify(simulation_params.model_dump()), 200
+  result, code = simulation.run()
+
+  return jsonify(result), code
