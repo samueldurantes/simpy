@@ -1,5 +1,5 @@
 {
-  description = "";
+  description = "A lightweight API designed to simulate bank credit scenarios for real estate financing";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
