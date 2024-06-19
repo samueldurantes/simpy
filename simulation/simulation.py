@@ -17,7 +17,7 @@ class Simulation:
 
         try:
           i = itau.simulate_all_installments()
-          installments = list(map(lambda x: {"installment": x[0], "value": x[1]}, i))
+          installments = list(map(lambda i: {"installment": i[0], "value": i[1]}, i))
 
           return {
             "bank": self.bank,
