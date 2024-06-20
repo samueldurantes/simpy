@@ -11,22 +11,21 @@ class Simulation:
     self.age = age
 
   def run(self):
-    match self.bank:
-      case SupportedBanks.ITAU.name:
-        itau = Itau(self.financing_value, self.installments_number, self.age, "Personnalité")
+    if self.bank == SupportedBanks.ITAU.name:
+      itau = Itau(self.financing_value, self.installments_number, self.age, "Personnalité")
 
-        try:
+      try:
           i = itau.simulate_all_installments()
           installments = list(map(lambda i: {"installment": i[0], "value": i[1]}, i))
 
           return {
-            "bank": self.bank,
-            "financing_value": self.financing_value,
-            "installments_number": self.installments_number,
-            "age": self.age,
-            "installments": installments,
+              "bank": self.bank,
+              "financing_value": self.financing_value,
+              "installments_number": self.installments_number,
+              "age": self.age,
+              "installments": installments,
           }, 200
-        except ValueError as error:
+      except ValueError as error:
           return {"error": str(error)}, 400
-      case _:
-        return {"error": "Bank not supported"}, 400
+    else:
+      return {"error": "Bank not supported"}, 400

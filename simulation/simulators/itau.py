@@ -16,17 +16,16 @@ class Itau:
     self.amortization = float("{:.3f}".format(financing_value / installments_number))
 
   def get_interest(self):
-    match self.segment:
-      case "Personnalité":
-        return self.financing_value * (0.8325 / 100)
-      case "Private":
-        return self.financing_value * (0.824166667 / 100)
-      case "Uniclass":
-        return self.financing_value * (0.874166667 / 100)
-      case "Agências":
-        return self.financing_value * ((10.4724245 / 12) / 100)
-      case _:
-        return self.financing_value * (0.915833333 / 100)
+    if self.segment == "Personnalité":
+      return self.financing_value * (0.8325 / 100)
+    elif self.segment == "Private":
+      return self.financing_value * (0.824166667 / 100)
+    elif self.segment == "Uniclass":
+      return self.financing_value * (0.874166667 / 100)
+    elif self.segment == "Agências":
+      return self.financing_value * ((10.4724245 / 12) / 100)
+    else:
+      return self.financing_value * (0.915833333 / 100)
 
   def get_mip(self):
     d = {
