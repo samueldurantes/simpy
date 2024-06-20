@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from pydantic import BaseModel, validator, ValidationError
-from simulation.simulation import Simulation
+# from simulation.simulation import Simulation
 
 app = Flask(__name__)
 
@@ -48,13 +48,13 @@ def simulations():
   except ValidationError as e:
     return jsonify({"error": e.errors()[-1]['msg']}), 400
   
-  simulation = Simulation(
-    bank=simulation_params.bank,
-    financing_value=simulation_params.financing_value,
-    installments_number=simulation_params.installments_number,
-    age=simulation_params.age
-  )
+  # simulation = Simulation(
+  #   bank=simulation_params.bank,
+  #   financing_value=simulation_params.financing_value,
+  #   installments_number=simulation_params.installments_number,
+  #   age=simulation_params.age
+  # )
 
-  result, code = simulation.run()
+  # result, code = simulation.run()
 
-  return jsonify(result), code
+  return jsonify({"hello": 'world'}), 200
