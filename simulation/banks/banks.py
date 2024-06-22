@@ -44,7 +44,7 @@ class Bank:
         if i % 12 == 0:
           age += 1
           
-        self.financing_value = float("{:.2f}".format(financing_value - amortization))
+        financing_value = float("{:.2f}".format(financing_value - amortization))
         simulate_value = float(self.simulate(amortization, financing_value, age))
         res.append([str(i), simulate_value])
     return res
