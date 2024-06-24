@@ -9,8 +9,8 @@ class Simulation:
 
   def run(self):
       try:
-        bank = Banks[self.bank].value
-      except ValueError:
+        bank = Banks[self.bank.upper()].value
+      except KeyError:
         return {"error": str(f"Bank '{self.bank}' is not supported.")}, 400
 
       try:
