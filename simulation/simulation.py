@@ -19,6 +19,7 @@ class Simulation:
 
         return {
             "bank": self.bank, "financing_value": self.financing_value,
+            "amortization": "SAC",
             "installments_number": self.installments_number,
             "age": self.age,
             "installments": installments,
