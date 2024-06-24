@@ -58,3 +58,6 @@ def simulations():
   result, code = simulation.run()
 
   return jsonify(result), code
+
+if __name__ == '__main__':
+    app.run()
