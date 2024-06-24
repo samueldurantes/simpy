@@ -36,7 +36,7 @@ def simulations():
   age = request.args.get('age')
 
   if not bank or not financing_value or not installments_number or not age:
-    return jsonify({"error": "It's necessary specify all these parameters: bank, financing_value, installments_number, age"}), 400
+    return jsonify({"error": "It's necessary to specify all these parameters: bank, financing_value, installments_number, age"}), 400
 
   try:
     simulation_params = SimulationParams(
