@@ -11,7 +11,7 @@ class Simulation:
       try:
         bank = Banks[self.bank.upper()].value
       except KeyError:
-        return {"error": str(f"Bank '{self.bank}' is not supported.")}, 400
+        return {"error": str(f"Bank '{self.bank}' is not supported. Access '/banks' to see valid bank keys")}, 400
 
       try:
         i = bank.simulate_all_installments(self.financing_value, self.installments_number, self.age)
