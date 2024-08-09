@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from pydantic import BaseModel, validator, ValidationError
 from simulation.simulation import Simulation
+from simulation.banks.banks import Banks
 
 app = Flask(__name__)
 
@@ -58,6 +59,14 @@ def simulations():
   result, code = simulation.run()
 
   return jsonify(result), code
+
+@app.route("/banks")
+def show_banks():
+  banks = []
+  for bank in Banks:
+      banks.append({ "key": bank.name })
+
+  return jsonify({ "banks": banks }), 200
 
 if __name__ == '__main__':
     app.run()
