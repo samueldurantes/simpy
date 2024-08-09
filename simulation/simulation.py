@@ -18,10 +18,13 @@ class Simulation:
         installments = list(map(lambda i: {"installment": i[0], "value": i[1]}, i))
 
         return {
-            "bank": self.bank, "financing_value": self.financing_value,
-            "amortization": "SAC",
+            "bank": bank.name, 
+            "financing_value": self.financing_value,
+            "amortization": bank.modality,
             "installments_number": self.installments_number,
             "age": self.age,
+            "anual_fee": bank.fee,
+            "anual_cet": bank.interest,
             "installments": installments,
         }, 200
       except ValueError as error:
